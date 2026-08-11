@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>sweatmate — blog</title>
+<title>sweatmate · blog</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Cdefs%3E%3ClinearGradient id=%22a%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23F09A1F%22/%3E%3Cstop offset=%221%22 stop-color=%22%23D97706%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23D97706%22/%3E%3Cstop offset=%221%22 stop-color=%22%23B45309%22/%3E%3C/linearGradient%3E%3CclipPath id=%22c%22%3E%3Ccircle cx=%22196%22 cy=%22216%22 r=%22170%22/%3E%3C/clipPath%3E%3C/defs%3E%3Ccircle cx=%22196%22 cy=%22216%22 r=%22170%22 fill=%22url(%23a)%22/%3E%3Ccircle cx=%22361%22 cy=%22341%22 r=%22115%22 fill=%22url(%23b)%22/%3E%3Ccircle cx=%22361%22 cy=%22341%22 r=%22115%22 fill=%22%238F4A05%22 clip-path=%22url(%23c)%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="_style.css">
 </head>
@@ -12,26 +12,69 @@
   <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F09A1F"/><stop offset="1" stop-color="#D97706"/></linearGradient>
   <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D97706"/><stop offset="1" stop-color="#B45309"/></linearGradient>
 </defs></svg>
+
 <header><div class="nav">
   <a class="brand" href="/"><svg class="pin" viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c)"/></g></svg>sweatmate</a>
-  <a class="back" href="/">← home</a>
+  <input type="checkbox" id="mnav" class="mtoggle" hidden>
+  <div class="navright">
+    <a href="/#join" class="btn">join the beta</a>
+    <label for="mnav" class="burger" aria-label="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+  </div>
+  <nav class="drawer">
+    <a href="/#how">how it works</a>
+    <a href="/blog.html">blog</a>
+    <a href="/guidelines.html">guidelines</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="/terms.html">terms</a>
+  </nav>
 </div></header>
+
+<section class="pagehero">
+  <div class="wrap"><h1>blog</h1>
+  <p>notes from building sweatmate, and ideas about doing sport with other people.</p></div>
+</section>
+
 <main class="wrap">
-  <h1>blog</h1>
-  <p class="muted">notes from building sweatmate, and ideas about doing sport with other people.</p>
-
-  <div class="post" style="margin-top:24px">
+  <article class="post">
     <h3>why i’m building sweatmate</h3>
-    <p class="muted">august 2026 · filippo</p>
-    <p>i love cycling, hiking and running — but i kept doing it alone. my friends aren’t into it, and turning up to a structured club felt like too much. i just wanted to find people near me who wanted to go out this weekend.</p>
-    <p>so i started building a map of sports outings: you see what’s happening near you, tap “i’m going”, sort it out in a group chat, and meet at the pin. and it pulls together the local running clubs and races that today live in a dozen scattered whatsapp groups.</p>
+    <p class="date">august 2026 · filippo</p>
+    <p>i love cycling, hiking and running, but for a long time i kept doing it alone. my friends aren’t into it, and turning up to a structured club felt like too much. i just wanted to find people near me who were going out this weekend.</p>
+    <p>so i started building a map of sports outings. you see what’s happening near you, tap “i’m going”, sort out the details in a group chat, and meet at the pin. it also pulls together the local running clubs and races that today live in a dozen scattered whatsapp groups.</p>
     <p>we’re starting in bergamo. if that sounds like something you’d use, <a href="/#join">join the beta</a>.</p>
-  </div>
+    <div class="chips"><span class="chip">🏃 running</span><span class="chip">🚴 cycling</span><span class="chip">🥾 hiking</span></div>
+  </article>
 
-  <div class="post">
+  <article class="post">
+    <h3>how a saturday works on sweatmate</h3>
+    <p class="date">august 2026 · filippo</p>
+    <p>open the map in the morning and you see the outings near you. a 10k at the park at 8, a ride to the lake, a sunrise trail. tap the one you like, say “i’m going”, and you’re in the group chat with the others who are going too.</p>
+    <p>you agree on the time, the pace and the meeting point, then you all show up at the pin. no big commitment, no signing up to anything. just people who wanted the same thing on the same morning.</p>
+  </article>
+
+  <article class="post">
     <h3>more coming soon</h3>
-    <p class="muted">the first posts are on their way. subscribe by <a href="/#join">joining the beta</a> and you’ll hear from us.</p>
-  </div>
+    <p class="date">the first proper posts are on their way.</p>
+    <p>we’ll write about the sports we’re adding, how the beta in bergamo is going, and small things we learn along the way. want them in your inbox? <a href="/#join">join the beta</a>.</p>
+  </article>
 </main>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <a class="brand" href="/"><svg class="pin" viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="cf"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#cf)"/></g></svg> sweatmate</a>
+      <p style="margin-top:10px; max-width:260px">the map of sports outings near you. made in bergamo.</p>
+    </div>
+    <div><h4>app</h4><ul>
+      <li><a href="/#how">how it works</a></li>
+      <li><a href="/blog.html">blog</a></li>
+      <li><a href="/guidelines.html">community guidelines</a></li>
+    </ul></div>
+    <div><h4>legal</h4><ul>
+      <li><a href="/privacy.html">privacy policy</a></li>
+      <li><a href="/terms.html">terms of service</a></li>
+    </ul></div>
+  </div>
+  <div class="copy">© 2026 Filippo Terzi · sweatmate</div>
+</div></footer>
 </body>
 </html>

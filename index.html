@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>sweatmate — find people to do sports with</title>
+<title>sweatmate · find people to do sports with</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E%3Cdefs%3E%3ClinearGradient id=%22a%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23F09A1F%22/%3E%3Cstop offset=%221%22 stop-color=%22%23D97706%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22b%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23D97706%22/%3E%3Cstop offset=%221%22 stop-color=%22%23B45309%22/%3E%3C/linearGradient%3E%3CclipPath id=%22c%22%3E%3Ccircle cx=%22196%22 cy=%22216%22 r=%22170%22/%3E%3C/clipPath%3E%3C/defs%3E%3Ccircle cx=%22196%22 cy=%22216%22 r=%22170%22 fill=%22url(%23a)%22/%3E%3Ccircle cx=%22361%22 cy=%22341%22 r=%22115%22 fill=%22url(%23b)%22/%3E%3Ccircle cx=%22361%22 cy=%22341%22 r=%22115%22 fill=%22%238F4A05%22 clip-path=%22url(%23c)%22/%3E%3C/svg%3E">
-<meta name="description" content="the map of sports outings near you. runs, rides, hikes — say i'm going, meet at the pin. coming soon.">
-<meta property="og:title" content="sweatmate — find people to do sports with">
+<meta name="description" content="the map of sports outings near you. runs, rides, hikes. say i'm going, meet at the pin. coming soon.">
+<meta property="og:title" content="sweatmate · find people to do sports with">
 <meta property="og:description" content="the map of sports outings near you. coming soon.">
 <style>
   :root{
@@ -15,37 +15,46 @@
     --round: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{overflow-x:hidden;}
   body{font-family:var(--round); color:var(--ink); background:var(--bg); line-height:1.5;
        -webkit-font-smoothing:antialiased;}
   a{color:inherit; text-decoration:none;}
   .wrap{max-width:1000px; margin:0 auto; padding:0 22px;}
   h1,h2,h3{font-weight:800; letter-spacing:-.01em;}
 
-  /* header */
-  header{position:sticky; top:0; z-index:20; background:rgba(255,251,244,.85);
-         backdrop-filter:blur(12px); border-bottom:1px solid rgba(0,0,0,.06);}
-  .nav{display:flex; align-items:center; gap:22px; height:64px;}
+  /* header (bianco, link nel menu) */
+  header{position:sticky; top:0; z-index:40; background:#fff;
+         border-bottom:1px solid rgba(0,0,0,.06);}
+  .nav{display:flex; align-items:center; gap:16px; height:64px; position:relative;}
   .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px;}
   .brand svg{width:30px; height:30px;}
-  .nav .links{margin-left:auto; display:flex; gap:22px; align-items:center;}
-  .nav .links a{color:var(--grey); font-weight:600; font-size:15px;}
-  .nav .links a:hover{color:var(--ink);}
+  .navright{margin-left:auto; display:flex; align-items:center; gap:12px;}
   .btn{display:inline-block; background:var(--amber); color:#fff; font-weight:700;
        padding:12px 22px; border-radius:999px; border:none; cursor:pointer; font-size:16px;
        font-family:var(--round);}
   .btn:hover{background:var(--amber-lo);}
   .btn.ghost{background:transparent; color:var(--amber); box-shadow:inset 0 0 0 2px var(--amber);}
+  /* hamburger */
+  .burger{display:flex; align-items:center; justify-content:center; width:44px; height:44px;
+          border-radius:12px; cursor:pointer; color:var(--ink);}
+  .burger:hover{background:rgba(0,0,0,.05);}
+  .burger svg{width:24px; height:24px;}
+  .drawer{position:absolute; top:60px; right:0; display:none; flex-direction:column;
+          background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:16px; padding:8px;
+          min-width:190px; box-shadow:0 14px 40px rgba(0,0,0,.12); z-index:50;}
+  .drawer a{padding:11px 14px; border-radius:10px; color:var(--ink); font-weight:600; font-size:15px;}
+  .drawer a:hover{background:var(--tint); color:var(--amber-lo);}
+  .mtoggle:checked ~ .drawer{display:flex;}
 
   /* hero */
   .hero{background:linear-gradient(180deg,var(--bg),var(--tint)); padding:76px 0 90px; text-align:center;
         position:relative; overflow:hidden;}
   .hero .wrap{position:relative; z-index:2;}
-  /* emoji sport che spuntano dietro il titolo e fluttuano (come le bandierine) */
+  /* emoji sport che spuntano dietro il titolo (solo fade-in, niente movimento) */
   .float{position:absolute; z-index:1; font-size:38px; opacity:0;
-         animation:appear .7s ease forwards, drift 7s ease-in-out infinite;
+         animation:appear .8s ease forwards;
          filter:drop-shadow(0 6px 10px rgba(0,0,0,.08));}
   @keyframes appear{to{opacity:1}}
-  @keyframes drift{0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-14px) rotate(3deg)}}
   @media (max-width:640px){ .float{display:none} } /* su mobile niente, per pulizia */
   @media (prefers-reduced-motion:reduce){ .float{animation:appear .5s ease forwards} }
   .badge{display:inline-block; background:#fff; color:var(--amber-lo); font-weight:700;
@@ -84,7 +93,9 @@
   /* founder */
   .founder{background:var(--tint); border-radius:32px; padding:44px; max-width:760px; margin:0 auto;
            text-align:center;}
-  .founder .mark{width:66px; height:66px; margin:0 auto 18px;}
+  .founder .photo{width:104px; height:104px; border-radius:50%; object-fit:cover; object-position:50% 40%;
+           display:block; margin:0 auto 18px; box-shadow:0 10px 28px rgba(0,0,0,.18);
+           border:4px solid #fff;}
   .founder p{font-size:19px; color:#333; margin-bottom:14px;}
   .founder .sig{font-weight:800; color:var(--amber-lo);}
 
@@ -122,12 +133,20 @@
       <svg viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c)"/></g></svg>
       sweatmate
     </a>
-    <div class="links">
+    <input type="checkbox" id="mnav" class="mtoggle" hidden>
+    <div class="navright">
+      <a href="#join" class="btn">join the beta</a>
+      <label for="mnav" class="burger" aria-label="menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </label>
+    </div>
+    <nav class="drawer">
       <a href="#how">how it works</a>
       <a href="/blog.html">blog</a>
       <a href="/guidelines.html">guidelines</a>
-      <a href="#join" class="btn">join the beta</a>
-    </div>
+      <a href="/privacy.html">privacy</a>
+      <a href="/terms.html">terms</a>
+    </nav>
   </div>
 </header>
 
@@ -146,7 +165,7 @@
   <div class="wrap">
     <span class="badge">🟠 coming soon to the app store</span>
     <h1>find people to do sports with, near you</h1>
-    <p class="sub">the map of sports outings around you. runs, rides, hikes — you see one, you say “i’m going”, you meet at the pin.</p>
+    <p class="sub">the map of sports outings around you. runs, rides, hikes. you see one, you say “i’m going”, you meet at the pin.</p>
     <form class="signup" onsubmit="return joinBeta(event)">
       <input id="email" type="email" required placeholder="your email" autocomplete="email">
       <button class="btn" type="submit">join the beta</button>
@@ -158,10 +177,10 @@
 <section class="block" id="how">
   <div class="wrap">
     <h2>here’s what your weekend could look like</h2>
-    <p class="lead">not an algorithm, not a feed — just a normal saturday, with people who wanted the same thing.</p>
+    <p class="lead">not an algorithm, not a feed. just a normal saturday, with people who wanted the same thing.</p>
     <div class="steps">
       <div class="step"><div class="em">☀️</div><h3>saturday morning</h3><p>open the map. see who’s going out near you today.</p></div>
-      <div class="step"><div class="em">👀</div><h3>right after</h3><p>tap “i’m going” on a run — or propose your own in two taps.</p></div>
+      <div class="step"><div class="em">👀</div><h3>right after</h3><p>tap “i’m going” on a run, or propose your own in two taps.</p></div>
       <div class="step"><div class="em">💬</div><h3>before you go</h3><p>sort out the details in the group chat: time, pace, meeting point.</p></div>
       <div class="step"><div class="em">📍</div><h3>you meet</h3><p>you all show up at the pin. no awkward, just people who wanted the same thing.</p></div>
       <div class="step"><div class="em">🙌</div><h3>next weekend</h3><p>you’ve got people to move with. add the ones you keep meeting.</p></div>
@@ -172,7 +191,7 @@
 <section class="block" style="background:var(--tint)">
   <div class="wrap">
     <h2>the kind of thing you’ll find</h2>
-    <p class="lead">example outings around bergamo. the real ones show up on the map when we launch — and you can post your own.</p>
+    <p class="lead">example outings around bergamo. the real ones show up on the map when we launch, and you can post your own.</p>
     <div class="cards">
       <div class="card"><div class="em">🏃</div><div><div class="t">i run 10k at the park</div><div class="m">saturday, 8:00 · easy pace</div></div></div>
       <div class="card"><div class="em">🚴</div><div><div class="t">ride to the lake, coffee stop</div><div class="m">sunday, 7:00 · 65 km</div></div></div>
@@ -187,10 +206,10 @@
 <section class="block">
   <div class="wrap">
     <div class="founder">
-      <svg class="mark" viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c2"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c2)"/></g></svg>
-      <p>❤️ hi, i’m filippo. i love cycling, hiking and running — but i kept doing it alone. my friends aren’t into it, and showing up to a structured club felt like too much.</p>
-      <p>i wanted a simple way to find people near me who wanted to go out this weekend — and to gather all the local running clubs and races in one place, on a map. so i started building sweatmate.</p>
-      <p class="sig">— filippo, bergamo 🫶</p>
+      <img class="photo" src="/founder.jpg" alt="filippo, founder of sweatmate" width="104" height="104">
+      <p>❤️ hi, i’m filippo. i love cycling, hiking and running, but i kept doing it alone. my friends aren’t into it, and showing up to a structured club felt like too much.</p>
+      <p>i wanted a simple way to find people near me who wanted to go out this weekend, and to gather all the local running clubs and races in one place, on a map. so i started building sweatmate.</p>
+      <p class="sig">filippo, bergamo 🫶</p>
     </div>
   </div>
 </section>
