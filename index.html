@@ -36,7 +36,17 @@
   .btn.ghost{background:transparent; color:var(--amber); box-shadow:inset 0 0 0 2px var(--amber);}
 
   /* hero */
-  .hero{background:linear-gradient(180deg,var(--bg),var(--tint)); padding:76px 0 90px; text-align:center;}
+  .hero{background:linear-gradient(180deg,var(--bg),var(--tint)); padding:76px 0 90px; text-align:center;
+        position:relative; overflow:hidden;}
+  .hero .wrap{position:relative; z-index:2;}
+  /* emoji sport che spuntano dietro il titolo e fluttuano (come le bandierine) */
+  .float{position:absolute; z-index:1; font-size:38px; opacity:0;
+         animation:appear .7s ease forwards, drift 7s ease-in-out infinite;
+         filter:drop-shadow(0 6px 10px rgba(0,0,0,.08));}
+  @keyframes appear{to{opacity:1}}
+  @keyframes drift{0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-14px) rotate(3deg)}}
+  @media (max-width:640px){ .float{display:none} } /* su mobile niente, per pulizia */
+  @media (prefers-reduced-motion:reduce){ .float{animation:appear .5s ease forwards} }
   .badge{display:inline-block; background:#fff; color:var(--amber-lo); font-weight:700;
          padding:8px 16px; border-radius:999px; font-size:14px; box-shadow:0 2px 12px rgba(0,0,0,.06);}
   .hero h1{font-size:clamp(38px,7vw,66px); line-height:1.02; margin:22px auto 14px; max-width:760px;}
@@ -136,6 +146,17 @@
 </div>
 
 <section class="hero" id="join">
+  <!-- sport sparsi che spuntano e fluttuano dietro il titolo -->
+  <span class="float" style="top:8%;  left:7%;  animation-delay:.1s,.1s">🏃</span>
+  <span class="float" style="top:26%; left:4%;  animation-delay:.5s,.6s">🚴</span>
+  <span class="float" style="top:52%; left:9%;  animation-delay:.9s,.3s">🥾</span>
+  <span class="float" style="top:70%; left:16%; animation-delay:.3s,.8s">🧗</span>
+  <span class="float" style="top:14%; left:20%; animation-delay:1.1s,.5s">🎾</span>
+  <span class="float" style="top:10%; right:8%;  animation-delay:.2s,.7s">🏊</span>
+  <span class="float" style="top:30%; right:5%;  animation-delay:.7s,.2s">⛰️</span>
+  <span class="float" style="top:55%; right:10%; animation-delay:1.0s,.9s">🏸</span>
+  <span class="float" style="top:72%; right:18%; animation-delay:.4s,.4s">⛷️</span>
+  <span class="float" style="top:16%; right:22%; animation-delay:1.3s,.6s">🏋️</span>
   <div class="wrap">
     <span class="badge">🟠 coming soon to the app store</span>
     <h1>find people to do sports with, near you</h1>
