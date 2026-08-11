@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sweatmate — find people to do sports with</title>
+<style>
+  :root { --amber: #D97706; --tint: #FCECD9; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", sans-serif; margin: 0;
+         color: #111; background: linear-gradient(180deg, #FFFBF4, var(--tint));
+         min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         text-align: center; padding: 32px; }
+  .card { max-width: 460px; }
+  .mark { width: 132px; height: 132px; margin: 0 auto 24px; }
+  h1 { font-size: 2em; margin: 0 0 8px; }
+  .lead { color: #6E6E73; font-size: 1.15em; line-height: 1.5; margin: 0 0 28px; }
+  .cta { display: inline-block; background: var(--amber); color: #fff;
+         text-decoration: none; font-weight: 600; padding: 15px 30px;
+         border-radius: 999px; font-size: 1.05em; }
+  .muted { color: #6E6E73; font-size: 0.9em; margin-top: 20px; }
+  a.link { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="card">
+  <svg class="mark" viewBox="0 0 512 512">
+    <defs>
+      <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F09A1F"/><stop offset="1" stop-color="#D97706"/></linearGradient>
+      <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#D97706"/><stop offset="1" stop-color="#B45309"/></linearGradient>
+    </defs>
+    <g transform="translate(256,256)">
+      <circle cx="-60" cy="-40" r="170" fill="url(#gl)"/>
+      <circle cx="105" cy="85" r="115" fill="url(#gr)"/>
+      <clipPath id="c"><circle cx="-60" cy="-40" r="170"/></clipPath>
+      <circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c)"/>
+    </g>
+  </svg>
+  <h1>sweatmate</h1>
+  <p class="lead">find people to do sports with, near you.<br>runs, rides, hikes — say "i'm going", meet at the pin.</p>
+  <a class="cta" href="mailto:filippoterzi@aiutomazione.com?subject=sweatmate%20beta">join the beta</a>
+  <p class="muted">the app is in private beta. coming soon to the App Store.<br>
+    <a class="link" href="privacy.html">privacy</a> · <a class="link" href="terms.html">terms</a></p>
+</div>
+</body>
+</html>
