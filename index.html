@@ -59,17 +59,6 @@
   .note{font-size:14px; color:var(--grey); margin-top:12px;}
   .ok{color:var(--amber-lo); font-weight:700;}
 
-  /* striscia sport animata (come le bandierine di nomadtable) */
-  .ticker{background:var(--tint); border-bottom:1px solid rgba(0,0,0,.05); overflow:hidden;
-          padding:12px 0; -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
-          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
-  .ticker .track{display:inline-flex; gap:36px; white-space:nowrap; will-change:transform;
-                 animation:scroll 34s linear infinite;}
-  .ticker:hover .track{animation-play-state:paused;}
-  .ticker .it{font-size:17px; font-weight:700; color:var(--amber-lo); display:inline-flex; gap:9px; align-items:center;}
-  .ticker .it .e{font-size:22px;}
-  @keyframes scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
-  @media (prefers-reduced-motion:reduce){ .ticker .track{animation:none} }
 
   /* sections */
   section.block{padding:70px 0;}
@@ -141,10 +130,6 @@
     </div>
   </div>
 </header>
-
-<div class="ticker" aria-hidden="true">
-  <div class="track" id="tk"></div>
-</div>
 
 <section class="hero" id="join">
   <!-- sport sparsi che spuntano e fluttuano dietro il titolo -->
@@ -252,15 +237,6 @@
 <script>
   const SB_URL = "https://uudccbzihhgoeaevkewr.supabase.co";
   const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1ZGNjYnppaGhnb2VhZXZrZXdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNzk0NzEsImV4cCI6MjEwMTk1NTQ3MX0.OHJC3vmT8eRLczFkH0QdZybbjudDfSi4VEX8Mc22ABQ";
-  // striscia sport: duplicata per il loop continuo
-  (function(){
-    const sports = [["🏃","running"],["🚴","cycling"],["🥾","hiking"],["⛰️","trail"],
-      ["🧗","climbing"],["🏊","swimming"],["🏋️","hyrox"],["🎾","tennis"],["🏸","padel"],
-      ["⚽","football"],["🏀","basketball"],["⛷️","skiing"],["🏂","snowboard"],["🚵","mtb"],
-      ["🧘","yoga"],["🏄","surf"]];
-    const one = sports.map(([e,n])=>`<span class="it"><span class="e">${e}</span>${n}</span>`).join("");
-    document.getElementById("tk").innerHTML = one + one; // due copie = scorrimento infinito
-  })();
 
   async function joinBeta(e){
     e.preventDefault();
