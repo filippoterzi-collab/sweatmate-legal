@@ -4,45 +4,233 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>sweatmate — find people to do sports with</title>
+<meta name="description" content="the map of sports outings near you. runs, rides, hikes — say i'm going, meet at the pin. coming soon.">
+<meta property="og:title" content="sweatmate — find people to do sports with">
+<meta property="og:description" content="the map of sports outings near you. coming soon.">
 <style>
-  :root { --amber: #D97706; --tint: #FCECD9; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, "Helvetica Neue", sans-serif; margin: 0;
-         color: #111; background: linear-gradient(180deg, #FFFBF4, var(--tint));
-         min-height: 100vh; display: flex; align-items: center; justify-content: center;
-         text-align: center; padding: 32px; }
-  .card { max-width: 460px; }
-  .mark { width: 132px; height: 132px; margin: 0 auto 24px; }
-  h1 { font-size: 2em; margin: 0 0 8px; }
-  .lead { color: #6E6E73; font-size: 1.15em; line-height: 1.5; margin: 0 0 28px; }
-  .cta { display: inline-block; background: var(--amber); color: #fff;
-         text-decoration: none; font-weight: 600; padding: 15px 30px;
-         border-radius: 999px; font-size: 1.05em; }
-  .muted { color: #6E6E73; font-size: 0.9em; margin-top: 20px; }
-  a.link { color: var(--amber); }
+  :root{
+    --amber:#D97706; --amber-hi:#F09A1F; --amber-lo:#B45309; --tint:#FCECD9;
+    --ink:#111; --grey:#6E6E73; --bg:#FFFBF4;
+    --round: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:var(--round); color:var(--ink); background:var(--bg); line-height:1.5;
+       -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 22px;}
+  h1,h2,h3{font-weight:800; letter-spacing:-.01em;}
+
+  /* header */
+  header{position:sticky; top:0; z-index:20; background:rgba(255,251,244,.85);
+         backdrop-filter:blur(12px); border-bottom:1px solid rgba(0,0,0,.06);}
+  .nav{display:flex; align-items:center; gap:22px; height:64px;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px;}
+  .brand svg{width:30px; height:30px;}
+  .nav .links{margin-left:auto; display:flex; gap:22px; align-items:center;}
+  .nav .links a{color:var(--grey); font-weight:600; font-size:15px;}
+  .nav .links a:hover{color:var(--ink);}
+  .btn{display:inline-block; background:var(--amber); color:#fff; font-weight:700;
+       padding:12px 22px; border-radius:999px; border:none; cursor:pointer; font-size:16px;
+       font-family:var(--round);}
+  .btn:hover{background:var(--amber-lo);}
+  .btn.ghost{background:transparent; color:var(--amber); box-shadow:inset 0 0 0 2px var(--amber);}
+
+  /* hero */
+  .hero{background:linear-gradient(180deg,var(--bg),var(--tint)); padding:76px 0 90px; text-align:center;}
+  .badge{display:inline-block; background:#fff; color:var(--amber-lo); font-weight:700;
+         padding:8px 16px; border-radius:999px; font-size:14px; box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .hero h1{font-size:clamp(38px,7vw,66px); line-height:1.02; margin:22px auto 14px; max-width:760px;}
+  .hero p.sub{font-size:clamp(17px,2.4vw,21px); color:var(--grey); max-width:560px; margin:0 auto 30px;}
+  form.signup{display:flex; gap:10px; max-width:460px; margin:0 auto; flex-wrap:wrap; justify-content:center;}
+  form.signup input{flex:1; min-width:220px; padding:14px 18px; border-radius:999px;
+    border:1.5px solid rgba(0,0,0,.12); font-size:16px; font-family:var(--round); background:#fff;}
+  form.signup input:focus{outline:none; border-color:var(--amber);}
+  .note{font-size:14px; color:var(--grey); margin-top:12px;}
+  .ok{color:var(--amber-lo); font-weight:700;}
+
+  /* sections */
+  section.block{padding:70px 0;}
+  section.block h2{font-size:clamp(28px,4.5vw,42px); text-align:center; margin-bottom:12px;}
+  section.block .lead{text-align:center; color:var(--grey); max-width:560px; margin:0 auto 44px; font-size:18px;}
+
+  /* weekend steps */
+  .steps{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .step{background:#fff; border-radius:24px; padding:26px; box-shadow:0 6px 24px rgba(0,0,0,.05);}
+  .step .em{font-size:34px;}
+  .step h3{font-size:19px; margin:12px 0 6px;}
+  .step p{color:var(--grey); font-size:15px;}
+
+  /* activity cards */
+  .cards{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+  .card{background:#fff; border-radius:22px; padding:20px; box-shadow:0 6px 24px rgba(0,0,0,.05);
+        display:flex; gap:14px; align-items:flex-start;}
+  .card .em{font-size:34px; line-height:1;}
+  .card .t{font-weight:700; font-size:17px;}
+  .card .m{color:var(--grey); font-size:14px; margin-top:3px;}
+  .card .g{color:var(--amber); font-weight:700; font-size:14px; margin-top:8px;}
+
+  /* founder */
+  .founder{background:var(--tint); border-radius:32px; padding:44px; max-width:760px; margin:0 auto;
+           text-align:center;}
+  .founder .mark{width:66px; height:66px; margin:0 auto 18px;}
+  .founder p{font-size:19px; color:#333; margin-bottom:14px;}
+  .founder .sig{font-weight:800; color:var(--amber-lo);}
+
+  /* final cta */
+  .final{background:linear-gradient(180deg,var(--tint),var(--amber)); text-align:center; color:#fff;}
+  .final h2{color:#fff;}
+  .final .lead{color:rgba(255,255,255,.9);}
+  .final form.signup input{border:none;}
+  .final .btn{background:#fff; color:var(--amber-lo);}
+  .final .btn:hover{background:#fff8;}
+  .final .note{color:rgba(255,255,255,.85);}
+
+  /* footer */
+  footer{padding:50px 0 60px; border-top:1px solid rgba(0,0,0,.06); color:var(--grey); font-size:15px;}
+  footer .cols{display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between;}
+  footer a{color:var(--grey);} footer a:hover{color:var(--ink);}
+  footer h4{font-size:13px; text-transform:uppercase; letter-spacing:.05em; color:#999; margin-bottom:12px; font-weight:700;}
+  footer li{list-style:none; margin-bottom:8px;}
+  .copy{margin-top:36px; font-size:14px;}
 </style>
 </head>
 <body>
-<div class="card">
-  <svg class="mark" viewBox="0 0 512 512">
-    <defs>
-      <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#F09A1F"/><stop offset="1" stop-color="#D97706"/></linearGradient>
-      <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#D97706"/><stop offset="1" stop-color="#B45309"/></linearGradient>
-    </defs>
-    <g transform="translate(256,256)">
-      <circle cx="-60" cy="-40" r="170" fill="url(#gl)"/>
-      <circle cx="105" cy="85" r="115" fill="url(#gr)"/>
-      <clipPath id="c"><circle cx="-60" cy="-40" r="170"/></clipPath>
-      <circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c)"/>
-    </g>
-  </svg>
-  <h1>sweatmate</h1>
-  <p class="lead">find people to do sports with, near you.<br>runs, rides, hikes — say "i'm going", meet at the pin.</p>
-  <a class="cta" href="mailto:filippoterzi@aiutomazione.com?subject=sweatmate%20beta">join the beta</a>
-  <p class="muted">the app is in private beta. coming soon to the App Store.<br>
-    <a class="link" href="privacy.html">privacy</a> · <a class="link" href="terms.html">terms</a></p>
-</div>
+
+<!-- pin mark reused -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F09A1F"/><stop offset="1" stop-color="#D97706"/></linearGradient>
+    <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D97706"/><stop offset="1" stop-color="#B45309"/></linearGradient>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c)"/></g></svg>
+      sweatmate
+    </a>
+    <div class="links">
+      <a href="#how">how it works</a>
+      <a href="/blog.html">blog</a>
+      <a href="/guidelines.html">guidelines</a>
+      <a href="#join" class="btn">join the beta</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="join">
+  <div class="wrap">
+    <span class="badge">🟠 coming soon to the app store</span>
+    <h1>find people to do sports with, near you</h1>
+    <p class="sub">the map of sports outings around you. runs, rides, hikes — say “i’m going”, meet at the pin. no more going alone.</p>
+    <form class="signup" onsubmit="return joinBeta(event)">
+      <input id="email" type="email" required placeholder="your email" autocomplete="email">
+      <button class="btn" type="submit">join the beta</button>
+    </form>
+    <p class="note" id="note">be the first to know when we launch. no spam, ever.</p>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="wrap">
+    <h2>here’s what your weekend could look like</h2>
+    <p class="lead">real plans made by real people near you. this is a normal saturday on sweatmate.</p>
+    <div class="steps">
+      <div class="step"><div class="em">☀️</div><h3>saturday morning</h3><p>open the map. see who’s going out near you today.</p></div>
+      <div class="step"><div class="em">👀</div><h3>right after</h3><p>tap “i’m going” on a run — or propose your own in two taps.</p></div>
+      <div class="step"><div class="em">💬</div><h3>before you go</h3><p>sort out the details in the group chat: time, pace, meeting point.</p></div>
+      <div class="step"><div class="em">📍</div><h3>you meet</h3><p>you all show up at the pin. no awkward, just people who wanted the same thing.</p></div>
+      <div class="step"><div class="em">🙌</div><h3>next weekend</h3><p>you’ve got people to move with. add the ones you keep meeting.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="background:var(--tint)">
+  <div class="wrap">
+    <h2>what’s happening near you</h2>
+    <p class="lead">outings, rides, hikes — and the local races and matches worth going to, together.</p>
+    <div class="cards">
+      <div class="card"><div class="em">🏃</div><div><div class="t">i run 10k at the park</div><div class="m">sat 8:00 · easy pace</div><div class="g">4 are going</div></div></div>
+      <div class="card"><div class="em">🚴</div><div><div class="t">ride to the lake, coffee stop</div><div class="m">sun 7:00 · 65 km</div><div class="g">3 are going</div></div></div>
+      <div class="card"><div class="em">🥾</div><div><div class="t">hike up to canto alto</div><div class="m">sun 8:30 · 900 m up</div><div class="g">6 are going</div></div></div>
+      <div class="card"><div class="em">🏊</div><div><div class="t">morning swim at the pool</div><div class="m">tue 7:00 · open lane</div><div class="g">2 are going</div></div></div>
+      <div class="card"><div class="em">🏸</div><div><div class="t">padel thursday, need 2</div><div class="m">thu 19:00 · intermediate</div><div class="g">2 are going</div></div></div>
+      <div class="card"><div class="em">⛰️</div><div><div class="t">sunrise trail at maresana</div><div class="m">sat 6:00 · medium</div><div class="g">5 are going</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="founder">
+      <svg class="mark" viewBox="0 0 512 512"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c2"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c2)"/></g></svg>
+      <p>❤️ hi, i’m filippo. i love cycling, hiking and running — but i kept doing it alone. my friends aren’t into it, and showing up to a structured club felt like too much.</p>
+      <p>i wanted a simple way to find people near me who wanted to go out this weekend — and to gather all the local running clubs and races in one place, on a map. so i started building sweatmate.</p>
+      <p class="sig">— filippo, bergamo 🫶</p>
+    </div>
+  </div>
+</section>
+
+<section class="block final">
+  <div class="wrap">
+    <h2>stop training alone when you don’t have to</h2>
+    <p class="lead">join the beta and be there when sweatmate launches.</p>
+    <form class="signup" onsubmit="return joinBeta(event)">
+      <input id="email2" type="email" required placeholder="your email" autocomplete="email">
+      <button class="btn" type="submit">join the beta</button>
+    </form>
+    <p class="note" id="note2">for adults (18+). no spam, ever.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="/" style="font-size:20px">
+          <svg viewBox="0 0 512 512" style="width:28px;height:28px"><g transform="translate(256,256)"><circle cx="-60" cy="-40" r="170" fill="url(#gl)"/><circle cx="105" cy="85" r="115" fill="url(#gr)"/><clipPath id="c3"><circle cx="-60" cy="-40" r="170"/></clipPath><circle cx="105" cy="85" r="115" fill="#8F4A05" clip-path="url(#c3)"/></g></svg>
+          sweatmate
+        </a>
+        <p style="margin-top:12px; max-width:260px">the map of sports outings near you. made in bergamo.</p>
+      </div>
+      <div><h4>app</h4><ul>
+        <li><a href="#how">how it works</a></li>
+        <li><a href="/blog.html">blog</a></li>
+        <li><a href="/guidelines.html">community guidelines</a></li>
+      </ul></div>
+      <div><h4>legal</h4><ul>
+        <li><a href="/privacy.html">privacy policy</a></li>
+        <li><a href="/terms.html">terms of service</a></li>
+      </ul></div>
+      <div><h4>contact</h4><ul>
+        <li><a href="mailto:filippoterzi@aiutomazione.com">filippoterzi@aiutomazione.com</a></li>
+      </ul></div>
+    </div>
+    <div class="copy">© 2026 Filippo Terzi · sweatmate</div>
+  </div>
+</footer>
+
+<script>
+  const SB_URL = "https://uudccbzihhgoeaevkewr.supabase.co";
+  const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1ZGNjYnppaGhnb2VhZXZrZXdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNzk0NzEsImV4cCI6MjEwMTk1NTQ3MX0.OHJC3vmT8eRLczFkH0QdZybbjudDfSi4VEX8Mc22ABQ";
+  async function joinBeta(e){
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    const note = e.target.parentElement.querySelector('.note');
+    const email = input.value.trim();
+    note.textContent = "…";
+    try{
+      const r = await fetch(SB_URL + "/rest/v1/rpc/join_beta", {
+        method:"POST",
+        headers:{"apikey":SB_ANON,"Content-Type":"application/json"},
+        body: JSON.stringify({p_email: email, p_source:"site"})
+      });
+      if(r.ok){ input.value=""; note.innerHTML = "<span class='ok'>you’re on the list 🟠 we’ll be in touch.</span>"; }
+      else{ note.textContent = "hmm, check your email address and try again."; }
+    }catch(_){ note.textContent = "couldn’t reach the server, try again."; }
+    return false;
+  }
+</script>
 </body>
 </html>
