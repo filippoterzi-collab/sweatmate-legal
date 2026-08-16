@@ -21,7 +21,7 @@
   <img class="logo" src="email-logo.png" alt="sweatmate">
   <div id="body">
     <h1>unsubscribe</h1>
-    <p id="msg">one tap and you’re off the sweatmate beta list.</p>
+    <p id="msg">one tap and you’re off the sweatmate whitelist.</p>
     <button class="btn" id="go" type="button">unsubscribe me</button>
     <div><a class="home" href="/">back to sweatmate</a></div>
   </div>
@@ -47,7 +47,7 @@
       const out = await r.json().catch(()=>null);
       if(r.ok && out === "ok"){
         document.querySelector("h1").textContent = "you’re unsubscribed";
-        msg.textContent = "you won’t hear from the sweatmate beta again. no hard feelings 🟠";
+        msg.textContent = "you won’t hear from the sweatmate whitelist again. no hard feelings 🟠";
         btn.style.display="none";
       } else if(r.ok && out === "notfound"){
         msg.textContent = "this link isn’t valid anymore. you may already be unsubscribed.";
