@@ -69,6 +69,28 @@
   .note{font-size:14px; color:var(--grey); margin-top:12px;}
   .ok{color:var(--amber-lo); font-weight:700;}
 
+  /* language switch (header, sempre visibile) */
+  .langsw{display:inline-flex; align-items:center; border:1.5px solid rgba(0,0,0,.12);
+          border-radius:999px; overflow:hidden; font-size:13px; font-weight:800; letter-spacing:.02em;}
+  .langsw a{padding:7px 12px; color:var(--grey);}
+  .langsw a.on{background:var(--amber); color:#fff;}
+  .langsw a:hover:not(.on){background:rgba(0,0,0,.04);}
+  @media (max-width:520px){ .navright > .btn{display:none;} } /* su mobile il CTA è già nell'hero */
+
+  /* waitlist: CTA più grande + card opzionale (step 2) */
+  .cta{max-width:520px; margin:0 auto;}
+  .hero form.signup input{padding:16px 20px; font-size:17px;}
+  .hero form.signup .btn{padding:16px 26px; font-size:17px;}
+  .prefs{margin-top:14px; background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:22px;
+         padding:20px; box-shadow:0 10px 34px rgba(0,0,0,.08); text-align:left;}
+  .prefs .ptitle{font-weight:800; font-size:16px; margin-bottom:14px; text-align:center;}
+  .prow{display:flex; gap:10px; flex-wrap:wrap;}
+  .prow input, .prow select{flex:1; min-width:150px; padding:14px 16px; border-radius:14px;
+    border:1.5px solid rgba(0,0,0,.12); font-size:15px; font-family:var(--round); background:#fff; color:var(--ink);}
+  .prow input:focus, .prow select:focus{outline:none; border-color:var(--amber);}
+  .pactions{display:flex; gap:10px; margin-top:14px;}
+  .pactions .btn{flex:1; padding:13px 20px; font-size:15px;}
+
 
   /* sections */
   section.block{padding:70px 0;}
@@ -136,6 +158,10 @@
     </a>
     <input type="checkbox" id="mnav" class="mtoggle" hidden>
     <div class="navright">
+      <div class="langsw" role="group" aria-label="language">
+        <a href="/" class="on" aria-current="true">EN</a>
+        <a href="/index-it.html">IT</a>
+      </div>
       <a href="#join" class="btn">join the whitelist</a>
       <label for="mnav" class="burger" aria-label="menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -147,8 +173,6 @@
       <a href="/guidelines.html">guidelines</a>
       <a href="/privacy.html">privacy</a>
       <a href="/terms.html">terms</a>
-      <span class="sep"></span>
-      <a href="/index-it.html">🇮🇹 italiano</a>
     </nav>
   </div>
 </header>
@@ -169,11 +193,37 @@
     <span class="badge">🟠 coming soon on the app store &amp; google play</span>
     <h1>find people to do sports with, near you</h1>
     <p class="sub">the map of sports outings around you. runs, rides, hikes. you see one, you say “i’m going”, you meet at the pin.</p>
-    <form class="signup" onsubmit="return joinBeta(event)">
-      <input id="email" type="email" required placeholder="your email" autocomplete="email">
-      <button class="btn" type="submit">join the whitelist</button>
-    </form>
-    <p class="note" id="note">be the first to know when we launch. no spam, ever.</p>
+    <div class="cta">
+      <form class="signup" id="f1" onsubmit="return joinStep1(event)">
+        <input id="email" type="email" required placeholder="your email" autocomplete="email">
+        <button class="btn" type="submit">join the whitelist →</button>
+      </form>
+      <form class="prefs" id="f2" hidden onsubmit="return joinStep2(event)">
+        <p class="ptitle">you’re on the list 🟠 want us to prioritize your area?</p>
+        <div class="prow">
+          <input id="city" type="text" placeholder="your city (optional)" autocomplete="address-level2">
+          <select id="sport" aria-label="favorite sport">
+            <option value="">favorite sport (optional)</option>
+            <option value="running">🏃 running</option>
+            <option value="cycling">🚴 cycling</option>
+            <option value="hiking">🥾 hiking</option>
+            <option value="climbing">🧗 climbing</option>
+            <option value="tennis / padel">🎾 tennis / padel</option>
+            <option value="football">⚽ football</option>
+            <option value="basketball">🏀 basketball</option>
+            <option value="swimming">🏊 swimming</option>
+            <option value="gym / hyrox">🏋️ gym / hyrox</option>
+            <option value="skiing / snowboard">⛷️ skiing / snowboard</option>
+            <option value="other">➕ other</option>
+          </select>
+        </div>
+        <div class="pactions">
+          <button class="btn" type="submit">done</button>
+          <button class="btn ghost" type="button" onclick="finishPrefs()">skip</button>
+        </div>
+      </form>
+      <p class="note" id="note">be the first to know when we launch. no spam, ever · 18+</p>
+    </div>
   </div>
 </section>
 
@@ -221,7 +271,7 @@
   <div class="wrap">
     <h2>find your saturday crew</h2>
     <p class="lead">we’re starting in bergamo. join the whitelist and you’ll be there when we launch.</p>
-    <form class="signup" onsubmit="return joinBeta(event)">
+    <form class="signup" onsubmit="return joinSimple(event)">
       <input id="email2" type="email" required placeholder="your email" autocomplete="email">
       <button class="btn" type="submit">join the whitelist</button>
     </form>
@@ -268,18 +318,55 @@
   const SB_URL = "https://uudccbzihhgoeaevkewr.supabase.co";
   const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1ZGNjYnppaGhnb2VhZXZrZXdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzNzk0NzEsImV4cCI6MjEwMTk1NTQ3MX0.OHJC3vmT8eRLczFkH0QdZybbjudDfSi4VEX8Mc22ABQ";
 
-  async function joinBeta(e){
+  function rpcJoin(payload){
+    return fetch(SB_URL + "/rest/v1/rpc/join_beta", {
+      method:"POST",
+      headers:{"apikey":SB_ANON,"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // hero — step 1: email → reveal the optional prefs
+  async function joinStep1(e){
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const note = document.getElementById('note');
+    note.textContent = "…";
+    try{
+      const r = await rpcJoin({p_email: email, p_source:"site"});
+      if(r.ok){
+        document.getElementById('f1').hidden = true;
+        document.getElementById('f2').hidden = false;
+        note.innerHTML = "<span class='ok'>you’re in 🟠</span>";
+      } else { note.textContent = "hmm, check your email address and try again."; }
+    }catch(_){ note.textContent = "couldn’t reach the server, try again."; }
+    return false;
+  }
+
+  // hero — step 2: optional city + sport (skippable)
+  async function joinStep2(e){
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const city  = document.getElementById('city').value.trim();
+    const sport = document.getElementById('sport').value;
+    try{ await rpcJoin({p_email: email, p_source:"site", p_city: city, p_sport: sport}); }catch(_){}
+    finishPrefs();
+    return false;
+  }
+  function finishPrefs(){
+    document.getElementById('f2').hidden = true;
+    document.getElementById('note').innerHTML = "<span class='ok'>all set — we’ll be in touch before launch 🫶</span>";
+  }
+
+  // bottom cta — email only
+  async function joinSimple(e){
     e.preventDefault();
     const input = e.target.querySelector('input');
     const note = e.target.parentElement.querySelector('.note');
     const email = input.value.trim();
     note.textContent = "…";
     try{
-      const r = await fetch(SB_URL + "/rest/v1/rpc/join_beta", {
-        method:"POST",
-        headers:{"apikey":SB_ANON,"Content-Type":"application/json"},
-        body: JSON.stringify({p_email: email, p_source:"site"})
-      });
+      const r = await rpcJoin({p_email: email, p_source:"site"});
       if(r.ok){ input.value=""; note.innerHTML = "<span class='ok'>you’re on the list 🟠 we’ll be in touch.</span>"; }
       else{ note.textContent = "hmm, check your email address and try again."; }
     }catch(_){ note.textContent = "couldn’t reach the server, try again."; }
